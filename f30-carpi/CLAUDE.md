@@ -1,9 +1,10 @@
 # CLAUDE.md – f30-carpi
 
-Eigenes Infotainment für einen BMW F30 320d (2013) mit **CIC**-Radio,
-vorhandenem AUX-Eingang, ohne Bluetooth/CarPlay. Hardware: Raspberry Pi 5 +
-CarPiHAT PRO 5; Bild entweder über ein Video-Interface auf dem Original-CID
-(800×480 bzw. 1280×480, kein Touch) oder ein 12,3"-HDMI-Touch (1920×720).
+Eigenes Infotainment für einen BMW F30 320d (2013): 6,5"-CID (800×480), kein
+Navi, Radio mit CIC-ähnlichem Menü (vermutlich HU-B/ENTRY – Typschild prüfen),
+AUX-Eingang vorhanden, ohne Bluetooth/CarPlay. Hardware: Raspberry Pi 5 +
+CarPiHAT PRO 5; Bild per HDMI-Video-Interface (nur 480p) auf dem
+**Original-CID – kein Touch**, Bedienung nur per iDrive, Lenkradtasten, Sprache.
 Klemme 15 gibt es im F30 nur auf dem Bus; der Pi hängt an Kl. 15N/30B.
 CAN wird am Stecker des iDrive-Controllers (ZBE) abgegriffen.
 Details: `docs/BAUPLAN.md`.
@@ -25,7 +26,7 @@ Details: `docs/BAUPLAN.md`.
 - CAN-IDs gehören in `config/idrive_map.toml`, nicht in den Code. Nicht erfinden: nur am Auto ermittelte Werte eintragen.
 - Claude-API: offizielles `anthropic`-SDK, Modell aus `Settings.model` (Standard `claude-opus-5-5`), `thinking: adaptive`, Effort aus Settings, `fallbacks: "default"` mit Beta `server-side-fallback-2026-07-01`. Konversation nur anhängen, nie nachträglich bearbeiten (stattdessen `reset()`).
 - Neue Agent-Werkzeuge: Definition in `TOOL_DEFINITIONS` (strict, `additionalProperties: false`) + Methode `tool_<name>` in `Toolbox` + Test in `tests/test_agent.py`.
-- UI-Texte auf Deutsch, große Schrift, alles muss per Drehsteller (Fokus) erreichbar sein – beim Original-CID gibt es keinen Touch. Layouts für 800×480, 1280×480 und 1920×720 prüfen.
+- UI-Texte auf Deutsch, große Schrift, alles muss per Drehsteller (Fokus) erreichbar sein – beim Original-CID gibt es keinen Touch. Hauptziel ist 720×480 (Pi-Ausgabe 480p auf 6,5"-CID); 1920×720 bleibt für den PC nutzbar.
 - Hardwarenahe Bibliotheken (dbus-fast, python-mpd2, gpiozero) nur lazy importieren, damit `sim` auf jedem PC läuft.
 
 ## Befehle

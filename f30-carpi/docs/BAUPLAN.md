@@ -5,8 +5,12 @@ Claude Code), Zugriff auf eigene KI-Agenten, Musik und Handyfunktionen
 (Telefonie, SMS, Kontakte) – bedient über Touch bzw. den originalen
 iDrive-Controller und Sprache.
 
-**Bekannt vom Auto:** Radio = **CIC**, **AUX-Eingang vorhanden**, kein
-Bluetooth, kein CarPlay.
+**Bekannt vom Auto:** **6,5"-Bildschirm (CID, 800×480)**, ohne Navi,
+**AUX-Eingang vorhanden**, kein Bluetooth, kein CarPlay. Menü sieht aus wie
+CIC – bei einem 6,5"-F30 ohne Navi von 2013 ist es aber sehr wahrscheinlich
+das Basisradio **HU-B („Radio Professional“, ENTRY)**, siehe Abschnitt 2.
+
+**Entscheidung:** Weg A – Bild per Video-Interface auf dem **Original-CID**.
 
 > Preise sind Richtwerte aus Shop-/eBay-Angeboten (Stand Okt. 2026) bzw. als
 > „Schätzung“ markiert. Vor dem Kauf prüfen.
@@ -17,10 +21,10 @@ Bluetooth, kein CarPlay.
 
 ```
                  ┌──────────────────────────── Auto ──────────────────────────────┐
- Handy ──BT────► │  Raspberry Pi 5 ──HDMI──► Bild: (A) Video-Interface → Original-CID │
- (HFP/A2DP/PBAP) │   │                             oder (B) eigenes 12,3"-Display     │
+ Handy ──BT────► │  Raspberry Pi 5 ──HDMI 480p──► Video-Interface ──► Original-CID 6,5" │
+ (HFP/A2DP/PBAP) │   │                     (zwischen Radio und CID im LVDS-Kabel)    │
                  │   │  CarPiHAT PRO 5                                              │
-                 │   ├─ DAC ──3,5 mm──► AUX-In ──► CIC-Radio ──► Lautsprecher       │
+                 │   ├─ DAC ──3,5 mm──► AUX-In ──► Radio ──► Lautsprecher           │
  Internet ◄─LTE─ │   ├─ CAN (nur lesen) ◄── K-CAN am iDrive-Controller-Stecker      │
  (Claude-API)    │   ├─ Einschalteingang ◄── Sicherung mit Kl. 15N bzw. 30B         │
                  │   └─ 12 V → 5 V (5 A), sicheres Herunterfahren ◄── Kl. 30        │
@@ -28,7 +32,7 @@ Bluetooth, kein CarPlay.
                  └────────────────────────────────────────────────────────────────┘
 ```
 
-- **Das CIC bleibt drin** und dient als Verstärker: Der Pi gibt alles (Musik,
+- **Das Radio bleibt drin** und dient als Verstärker: Der Pi gibt alles (Musik,
   Telefon, Sprachausgabe) über den vorhandenen **AUX-Eingang** aus.
 - **Der Pi liest den Fahrzeugbus nur mit** (iDrive-Controller, Lenkradtasten,
   Klemmenstatus). Er sendet **nichts** auf den Bus.
@@ -36,37 +40,48 @@ Bluetooth, kein CarPlay.
   Telefonie (HFP), Musik (A2DP/AVRCP), Kontakte (PBAP), SMS (MAP).
 - **Internet** für den KI-Agenten über Handy-Hotspot oder LTE-Stick.
 
-## 2. Bildschirm: zwei Wege
+## 2. Bildschirm: Original-CID (6,5") mit Video-Interface
 
-Weil ein **CIC** verbaut ist, gibt es fertige Video-Interfaces, die ein
-fremdes Bild in den **Original-Bildschirm (CID)** einspeisen. Das war beim
-vermuteten Basisradio unklar.
+Das Interface sitzt zwischen Radio und CID im Videokabel (LVDS) und schaltet
+zwischen Originalbild und Pi-Bild (HDMI) um. Ergebnis: werksnahe Optik,
+Radio- und Fahrzeugmenüs bleiben, **kein Touch** – die Software wird
+ausschließlich per iDrive-Controller, Lenkradtasten und Sprache bedient.
 
-| | **(A) Original-CID + Video-Interface** | **(B) Eigenes 12,3"-Display** |
+### 2.1 Erst prüfen: welches Radio genau?
+
+| Prüfung | HU-B / ENTRY („Radio Professional“) | CIC |
 |---|---|---|
-| Optik | original, nichts sichtbar verändert | Nachrüst-Optik, 3D-gedruckter Halter |
-| Auflösung | 800×480 (6,5") bzw. 1280×480 (8,8") | 1920×720 |
-| Touch | nein → Bedienung nur per iDrive und Sprache | ja |
-| CIC-Menüs (Radio, Fahrzeugeinstellungen) | bleiben, Umschalten per Taste | entfallen (CID wird ersetzt) |
-| Kosten | Interface ≈ 250–400 € | Display ≈ 160 € + Halter |
-| Aufwand | Stecker zwischen CIC und CID (LVDS) | Halter bauen, CID ausbauen |
+| Typschild am Radio (hinter der Mittelkonsolen-Blende) | „HU-B“/„Radio Professional“, Teilenr. z. B. 65129262467, 65129270373 | „HU CIC“ |
+| Ausstattungsliste per VIN | SA 663 (Radio Professional), kein SA 609 | meist mit Navigation (SA 609/606) |
+| Stecker hinten am CID | laut Händlern 6-polig LVDS bei ENTRY/NBT | 4-polig HSD-LVDS |
 
-**Empfehlung: (A)**, solange ein passendes Interface für deinen Bildschirm
-gefunden wird – es ist werksnah, die Fahrzeugeinstellungen bleiben, und
-iDrive-Bedienung plus Sprache passen ohnehin zum Konzept. Die Oberfläche der
-Software passt sich an 800×480, 1280×480 und 1920×720 an.
+Eine BMW-Servicemitteilung nennt das HU-B ausdrücklich für F30, die **vor
+April 2013 ohne Navigation Professional (SA 609)** gebaut wurden; ein Forum
+bestätigt, dass ENTRY-Radios im F30 ein CIC-ähnliches Menü zeigen. Der
+Stecker hinten am CID ist das, was beim Interface-Kauf zählt.
 
-Vorher prüfen:
-- **Bildschirmgröße** (6,5" oder 8,8"). Laut Händlerlisten hatten F30 mit CIC
-  meist 8,8" (1280×480), es gibt aber auch 6,5" (800×480).
-- **Eingänge des Interfaces:** Viele CIC-Interfaces haben nur RGB/Composite
-  (FBAS) als Eingang, manche HDMI. Für den Pi ist **HDMI** ideal; sonst
-  braucht es einen HDMI→Composite-Wandler (schlechteres Bild) – oder den
-  Composite-Ausgang des Pi.
-- **Stecker:** F-Serie-CIDs hängen per 4-poligem HSD-LVDS-Stecker am Radio
-  (z. B. Ampire V5-CIC-F-PNP: „F-series with navigation system or radio and
-  7", 8.8" or 10.2" monitor with 4-pin HSD LVDS“ – 6,5" vorab beim Händler
-  erfragen).
+### 2.2 Interface-Kandidaten
+
+| Interface | passt laut Händler | Eingang | Preis |
+|---|---|---|---|
+| **Car Solutions „Video Interface with HDMI for BMW with Active Parking Guidelines“** (Favorit) | F30 mit 6,5"-CID; Radios „Entry, EntryNAV, NBT“; laut Listing Bedienung über den iDrive-Controller | HDMI (**nur 480p**), Kameras | ≈ 230 $ (+ Versand/Zoll) |
+| NAViKS F30 HDMI-Interface (eBay) | F30 2012–2017 | HDMI, Front-/Rückkamera; Ton über AUX | ≈ 430 $ |
+| car-interface.com CI-RL3-CIC-BM | „Business/Professional CIC-E und CIC F-Serie“, 4-Pin-LVDS | AV/RGB | 319 € |
+
+- **Favorit** ist das Car-Solutions-Interface: Es nennt ENTRY und 6,5"
+  ausdrücklich und hat HDMI. 480p passt gut zum 800×480-Bildschirm.
+- Das car-interface.com-Modul nur nehmen, falls dein Radio doch ein CIC
+  mit 4-poligem Stecker ist.
+- Vor der Bestellung dem Händler schreiben: Baujahr/VIN, Teilenummer des
+  Radios, Foto vom Stecker hinten am CID – und fragen, **wie umgeschaltet
+  wird** (Taste lang drücken?) und **ob die iDrive-Eingaben im Pi-Modus
+  weiter ans Radio gehen** (dann bewegt man „blind“ auch das Radiomenü).
+
+### 2.3 Pi-Ausgabe auf 480p
+
+Das HDMI des Interfaces nimmt nur 480p. Der Pi wird fest auf 720×480
+eingestellt (`/boot/firmware/cmdline.txt`, siehe README); die Oberfläche
+skaliert sich darauf (getestet für 720×480 und 800×480).
 
 ## 3. Strom: Klemme 15 gibt es im F30 nur virtuell
 
@@ -123,8 +138,7 @@ bequemste Punkt (Mittelkonsole, kurze Wege).
 |---|---|---|---|
 | 1 | Raspberry Pi 5, 8 GB + Active Cooler | Rechner | 95–110 € (Schätzung) |
 | 2 | **CarPiHAT PRO 5** | 12 V→5 V/5 A, Sicherung + Filter, Einschalteingang, sicheres Herunterfahren, CAN, Audio-DAC, < 1 mA Ruhestrom | ≈ 100–130 € (£88–110) |
-| 3a | **Video-Interface für F-Serie-CIC** mit HDMI- oder AV-Eingang (Weg A) | Pi-Bild auf Original-CID | ≈ 250–400 € |
-| 3b | *oder* 12,3" HDMI-Touch 1920×720 + Halter (Weg B) | eigener Bildschirm | ≈ 170–190 € |
+| 3 | **Video-Interface mit HDMI für F30 6,5" (ENTRY)**, siehe 2.2 | Pi-Bild auf Original-CID | ≈ 220–400 € inkl. Versand/Zoll (Schätzung) |
 | 4 | USB-SSD 128 GB oder High-Endurance-microSD | System | 20–40 € (Schätzung) |
 | 5 | USB-Mikrofon mit Echounterdrückung bzw. Mikrofon-Array | Sprache und Freisprechen | 30–60 € (Schätzung) |
 | 6 | USB-Bluetooth-5-Stick mit Antenne (optional) | besserer Empfang | 15 € (Schätzung) |
@@ -133,14 +147,16 @@ bequemste Punkt (Mittelkonsole, kurze Wege).
 | 9 | Ggf. Low-Speed-CAN-Transceiver (TJA1055-Modul) | falls K-CAN fehlertolerant ist | 10–20 € (Schätzung) |
 | 10 | **Optional:** Carlinkit CPC200-CCPA | CarPlay/Android Auto im eigenen UI | ≈ 70 € |
 
-**Summe Kernsystem:** Weg A ≈ **550–850 €**, Weg B ≈ **470–640 €**.
+**Summe Kernsystem: ≈ 520–850 €** (je nach Interface und ob ein Low-Speed-Transceiver nötig ist).
+
+*Verworfen:* eigenes 12,3"-Touch-Display (Weg B) – nur falls kein passendes Interface lieferbar ist.
 
 ## 6. Ausbaustufen
 
 | Stufe | Inhalt | Ergebnis |
 |---|---|---|
 | **0 Schreibtisch** | Software im Simulationsmodus am PC (`CARPI_MODE=sim`) | UI, Agent, Abläufe testen ohne Auto |
-| **1 Messen am Auto** | CID-Größe ablesen, Sicherungen mit 15N/30B finden, CAN-Pegel am ZBE-Stecker messen | Kaufentscheidung Interface/Transceiver |
+| **1 Messen am Auto** | Radio-Typschild + CID-Stecker fotografieren, Sicherungen mit 15N/30B finden, CAN-Pegel am ZBE-Stecker messen | Kaufentscheidung Interface/Transceiver |
 | **2 Prüfstand** | Pi + CarPiHAT + Bildschirm an 12-V-Netzteil, Handy koppeln | Musik und Anrufe am Tisch |
 | **3 Grundeinbau** | Strom, Bild, AUX-Audio, Mikrofon | Musik, Telefon, Agent im Auto |
 | **4 Fahrzeugbus** | CAN listen-only am ZBE-Stecker, `tools/can_sniff.py`: Drehsteller, Tasten, Lenkradtasten, Klemmenstatus → `config/idrive_map.toml` | Bedienung per Original-iDrive |
@@ -151,7 +167,7 @@ bequemste Punkt (Mittelkonsole, kurze Wege).
 
 - **Fahrzeugbus:** ausschließlich lesen (`listen-only`). Falsches Senden kann
   Fehlermeldungen oder Steuergeräte-Probleme auslösen.
-- **iDrive doppelt belegt:** Bei Weg A empfängt auch das CIC weiter alle
+- **iDrive doppelt belegt:** Das Radio empfängt weiterhin alle
   Dreh-/Drückbefehle. Die Software sollte nur reagieren, wenn ihr Bild
   gerade angezeigt wird (Umschaltlogik des Interfaces beachten).
 - **Batterie:** Pi muss sauber herunterfahren und dann stromlos sein
@@ -176,7 +192,12 @@ Siehe `README.md` und `CLAUDE.md`.
 - Video-Interface BMW CIC (Audiovisualworld): https://audiovisualworld.co.uk/bmw-idrive-cic-multimedia-video-interface-with-digital-radio-digital-tv-control-and-pip-sku572.html
 - NavInc Interface CIC: https://www.navinc.nl/multimedia-video-interface-bmw-idrive-cic-cic2-systems-3780
 - Nickl Fahrzeugliste (CID-Größen/Auflösungen F30): https://nickl.de/en/Products/CarImaging/VehicleList/
-- 12,3" HDMI 1920×720: https://spotpear.com/shop/Raspberry-Pi-12.3-inch-HDMI-LCD-Captive-TouchScreen-Display-1920x720.html
+- Car Solutions HDMI-Interface (Entry/EntryNAV/NBT, 480p): https://car-solutions.com/en/video-interface-with-hdmi-for-bmw-with-active-parking-guidelines/
+- NAViKS F30 HDMI-Interface: https://www.ebay.com/itm/251891505551
+- car-interface.com CI-RL3-CIC-BM: https://www.car-interface.com/vendita/en/interfaces-a-v-video-bmw/1376-video-interface-for-bmw-businessprofessional-cic-e-and-cic-f-series.html
+- BMW-Servicemitteilung HU-B (F30 vor 04/2013 ohne SA 609): https://manuals.autorepairshq.com/BMW/2013/328i%20xDrive%20Sedan%20AWD%20%28F30%29%20L4-2.0L%20Turbo%20%28N26%29/Repair%20and%20Diagnosis/Technical%20Service%20Bulletins/Customer%20Interest/Audio%20Sys%20-%20Headunit-Basic%20Doesn%27t%20Start%20Up%20and%20%27BMW%27%20Displayed
+- Forum: ENTRY-Radio mit CIC-ähnlichem Menü: https://f30.bimmerpost.com/forums/showthread.php?t=1065626
+- Teilenummern Radio Professional (HU_ENTRY): https://www.go-parts.com/garage/cd-player-bmw-328i-bmw-320i-bmw-335i-2012-2016
 - react-carplay: https://github.com/rhysmorgan134/react-carplay
 - Pi 5 + BMW-iDrive über CAN (Hudiy-Forum): https://hudiy.eu/community/viewtopic.php?p=1716
 - HFP am Pi (Sipfront): https://sipfront.com/blog/2025/03/automating-calls-on-real-mobile-devices-with-bluetooth-hfp-on-a-raspberry-pi/

@@ -55,6 +55,13 @@
     <!-- Assistent -->
     <section class="view" id="view-agent">
       <div id="chat" class="chat"></div>
+      <!-- Ohne Touch (Original-CID) per iDrive wählbar, bis die Sprachsteuerung kommt -->
+      <div class="presets">
+        <button class="focusable" data-ask="Wie wird das Wetter heute?">Wetter</button>
+        <button class="focusable" data-ask="Was gibt es Wichtiges in den Nachrichten? Bitte ganz kurz.">Nachrichten</button>
+        <button class="focusable" data-ask="Spiel Musik ab.">Musik</button>
+        <button class="focusable" data-ask="Was läuft gerade?">Was läuft?</button>
+      </div>
       <form id="ask-form" class="askbar">
         <input id="ask-input" class="focusable" autocomplete="off" placeholder="Frag den Assistenten … (Sprache folgt in Stufe 4)">
         <button class="focusable" type="submit">Senden</button>

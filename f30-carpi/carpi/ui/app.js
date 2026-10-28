@@ -67,8 +67,9 @@ function showView(name) {
   currentView = name;
   $$(".view").forEach((v) => v.classList.toggle("active", v.id === `view-${name}`));
   focusIndex = 0;
+  // Fokus startet auf den Schnellfragen; das Textfeld nur bei Bedarf anwählen (Tastatur am PC)
+  if (document.activeElement && document.activeElement.tagName === "INPUT") document.activeElement.blur();
   updateFocus();
-  if (name === "agent") $("#ask-input").focus();
 }
 
 function focusables() {
@@ -183,6 +184,7 @@ document.addEventListener("click", (e) => {
   else if (el.dataset.volume) changeVolume(Number(el.dataset.volume));
   else if (el.dataset.phone) send({ cmd: `phone.${el.dataset.phone}` });
   else if (el.dataset.dial) send({ cmd: "phone.dial", number: el.dataset.dial });
+  else if (el.dataset.ask) send({ cmd: "agent.ask", text: el.dataset.ask });
 });
 
 // ---------- Start ----------

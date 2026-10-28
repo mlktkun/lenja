@@ -64,6 +64,8 @@ button.danger { background: var(--danger); }
 .msg { max-width: 75%; padding: 14px 22px; border-radius: var(--radius); background: var(--panel); }
 .msg.user { align-self: flex-end; background: var(--accent); }
 .msg.tool { align-self: center; font-size: 20px; color: var(--muted); background: none; }
+.presets { display: flex; gap: 12px; padding-bottom: 12px; }
+.presets button { flex: 1; }
 .askbar { display: flex; gap: 16px; padding-bottom: var(--gap); }
 .askbar input { flex: 1; }
 

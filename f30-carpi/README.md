@@ -2,9 +2,8 @@
 
 Raspberry Pi 5 + eigene Software: KI-Assistent (Claude), Musik, Telefon
 (Bluetooth), Bedienung per Original-iDrive, Touch und später per Sprache.
-Das CIC-Radio bleibt eingebaut und dient als Verstärker (Ton über AUX); das
-Bild kommt per Video-Interface auf den Original-Bildschirm oder auf ein
-eigenes 12,3"-Display.
+Das Original-Radio bleibt eingebaut und dient als Verstärker (Ton über AUX);
+das Bild kommt per HDMI-Video-Interface auf den Original-Bildschirm (6,5").
 
 - **Hardware, Kosten, Einbau, Risiken:** [`docs/BAUPLAN.md`](docs/BAUPLAN.md)
 - **Hinweise für die Weiterentwicklung mit Claude Code:** [`CLAUDE.md`](CLAUDE.md)
@@ -54,6 +53,8 @@ das Modell eine Anfrage ab, beantwortet die API sie mit einem Ausweichmodell.
 8. PipeWire: HFP-Backend auf `ofono` stellen, Echo-Unterdrückung (`module-echo-cancel`) für das Mikrofon.
 9. Handy koppeln: `bluetoothctl` → `pair`, `trust`, `connect`.
 10. Kiosk: `deploy/kiosk.sh` beim Login des Benutzers `carpi` starten.
+11. HDMI fest auf 480p für das Video-Interface: an die (einzige) Zeile in
+    `/boot/firmware/cmdline.txt` anhängen: `video=HDMI-A-1:720x480@60D`
 
 ## Stand
 
@@ -62,7 +63,7 @@ das Modell eine Anfrage ab, beantwortet die API sie mit einem Ausweichmodell.
 | Oberfläche (1920×720, Fokus-Bedienung) | funktioniert (Simulation) |
 | Claude-Assistent mit Werkzeugen (Anruf, SMS, Musik, Lautstärke, Websuche) | funktioniert, getestet mit Attrappe der API |
 | iDrive-/Klemmenstatus-Decoder + Sniff-Werkzeug | fertig, **CAN-IDs am Auto noch zu ermitteln** |
-| Layout für Original-CID (800×480 / 1280×480) | funktioniert (Simulation) |
+| Layout für Original-CID (720×480 / 800×480), ohne Touch bedienbar | funktioniert (Simulation) |
 | Telefon über oFono | geschrieben, **noch nicht am Gerät getestet** |
 | Musik über MPD | geschrieben, **noch nicht am Gerät getestet** |
 | Zündung/Herunterfahren | geschrieben, GPIOs laut CarPiHAT-Doku prüfen |
