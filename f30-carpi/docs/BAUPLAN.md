@@ -138,7 +138,7 @@ bequemste Punkt (Mittelkonsole, kurze Wege).
 
 | # | Teil | Zweck | ca. Preis |
 |---|---|---|---|
-| 1 | Raspberry Pi 5, 8 GB + Active Cooler | Rechner | 95–110 € (Schätzung) |
+| 1 | Raspberry Pi 5, **4 GB** + Active Cooler (8 GB kostet nach den Preiserhöhungen 2026 ≈ 185 € und ist nicht nötig) | Rechner | ≈ 130–170 € |
 | 2 | **CarPiHAT PRO 5** | 12 V→5 V/5 A, Sicherung + Filter, Einschalteingang, sicheres Herunterfahren, CAN, Audio-DAC, < 1 mA Ruhestrom | ≈ 100–130 € (£88–110) |
 | 3 | **Video-Interface mit HDMI für F30 6,5" (ENTRY)**, siehe 2.2 | Pi-Bild auf Original-CID | ≈ 220–400 € inkl. Versand/Zoll (Schätzung) |
 | 4 | USB-SSD 128 GB oder High-Endurance-microSD | System | 20–40 € (Schätzung) |
@@ -153,7 +153,19 @@ bequemste Punkt (Mittelkonsole, kurze Wege).
 
 *Verworfen:* eigenes 12,3"-Touch-Display (Weg B) – nur falls kein passendes Interface lieferbar ist.
 
-## 6. Ausbaustufen
+## 5a. Gesamtkosten inkl. Werkzeug (ohne vorhandenes Werkzeug gerechnet, Stand Okt. 2026)
+
+| Block | Inhalt | ca. Kosten |
+|---|---|---|
+| Elektronik | Pi 5 4 GB + Kühler, CarPiHAT PRO 5 (aus UK), HDMI-Video-Interface inkl. Versand/Einfuhrumsatzsteuer, Speicher, USB-Mikrofon, Kabel (Micro-HDMI, Klinke), Befestigung | 590–800 € |
+| Einbaumaterial | 2× Sicherungsabgriff + Sicherungen, Kfz-Leitung, Aderendhülsen/Kabelschuhe, Schrumpfschlauch, Gewebeband, Kabelbinder, CAN-Abgriff | 45–70 € |
+| Werkzeug | Multimeter, Rückseiten-Prüfspitzen, Trim-Tool-Set, Torx-Satz, Abisolierzange, Crimpzange, Seitenschneider, Stirnlampe, 12-V-Netzteil für den Prüfstand | 145–260 € |
+| **Summe** | | **≈ 780–1.130 €** (mit 10 % Puffer ≈ 860–1.240 €) |
+| Falls Low-Speed-CAN | TJA1055-Lösung selbst gelötet (Lötstation + Teile), fertiges Modul nicht gefunden | + 60–100 € (oder mehr) |
+| Optional | OBD-Diagnose zum Fehlerspeicher-Löschen 30–80 €, BT-Stick 15 €, LTE-Stick 40–60 €, CarPlay-Dongle 70 € | |
+| Laufend | Claude-API (Opus 5.5, ca. 20 Fragen/Tag) ≈ 10–35 €/Monat (Schätzung); Daten über Handy-Hotspot | |
+
+
 
 | Stufe | Inhalt | Ergebnis |
 |---|---|---|
