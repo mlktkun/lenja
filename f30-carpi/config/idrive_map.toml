@@ -19,6 +19,15 @@
 #   enter, back, menu, up, down, left, right,
 #   media, phone, nav, option, voice, next, previous, vol_up, vol_down
 
+# Zündung: Im F30 gibt es Klemme 15 nur virtuell als Bus-Botschaft
+# ("Klemmenstatus"). Beim Sniffen Zündung an/aus schalten (Start-Stopp-Knopf
+# ohne Bremse) und die Botschaft eintragen, deren Byte sich dabei ändert.
+# [ignition]
+# can_id = 0x000
+# byte = 0
+# mask = 0x0F
+# value = 0x0A       # Wert der maskierten Bits bei "Zündung an"
+
 # [[buttons]]
 # name = "enter"
 # can_id = 0x000

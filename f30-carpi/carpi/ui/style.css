@@ -72,3 +72,28 @@ button.danger { background: var(--danger); }
 .facts dd { margin: 0; }
 
 .hint { padding: 6px 32px 12px; font-size: 18px; color: var(--muted); }
+
+/* Original-CID über Video-Interface: 8,8" (1280×480) bzw. 6,5" (800×480) */
+@media (max-height: 520px) {
+  :root { --gap: 14px; --radius: 12px; }
+  html, body { font-size: 20px; }
+  .statusbar { padding: 6px 20px; font-size: 18px; }
+  main { padding: 0 20px; }
+  button, input { padding: 10px 18px; }
+  .tile { font-size: 24px; gap: 8px; }
+  .tile .icon { font-size: 56px; }
+  .big { font-size: 32px; }
+  .controls button { min-width: 80px; font-size: 28px; }
+  .hint { display: none; }
+}
+
+@media (max-width: 900px) and (max-height: 520px) {
+  html, body { font-size: 18px; }
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+  .tile { flex-direction: row; font-size: 22px; }
+  .tile .icon { font-size: 40px; }
+  .controls { flex-wrap: wrap; }
+  .controls button { min-width: 64px; }
+  .split { grid-template-columns: 1fr; }
+  .msg { max-width: 90%; }
+}

@@ -1,8 +1,12 @@
 # CLAUDE.md – f30-carpi
 
-Eigenes Infotainment für einen BMW F30 320d (2013, Basisradio HU_ENTRY mit
-6,5"-CID, ohne Bluetooth/Navi). Hardware: Raspberry Pi 5 + CarPiHAT PRO 5 +
-12,3"-HDMI-Touch (1920×720). Details: `docs/BAUPLAN.md`.
+Eigenes Infotainment für einen BMW F30 320d (2013) mit **CIC**-Radio,
+vorhandenem AUX-Eingang, ohne Bluetooth/CarPlay. Hardware: Raspberry Pi 5 +
+CarPiHAT PRO 5; Bild entweder über ein Video-Interface auf dem Original-CID
+(800×480 bzw. 1280×480, kein Touch) oder ein 12,3"-HDMI-Touch (1920×720).
+Klemme 15 gibt es im F30 nur auf dem Bus; der Pi hängt an Kl. 15N/30B.
+CAN wird am Stecker des iDrive-Controllers (ZBE) abgegriffen.
+Details: `docs/BAUPLAN.md`.
 
 ## Architektur
 
@@ -21,7 +25,7 @@ Eigenes Infotainment für einen BMW F30 320d (2013, Basisradio HU_ENTRY mit
 - CAN-IDs gehören in `config/idrive_map.toml`, nicht in den Code. Nicht erfinden: nur am Auto ermittelte Werte eintragen.
 - Claude-API: offizielles `anthropic`-SDK, Modell aus `Settings.model` (Standard `claude-opus-5-5`), `thinking: adaptive`, Effort aus Settings, `fallbacks: "default"` mit Beta `server-side-fallback-2026-07-01`. Konversation nur anhängen, nie nachträglich bearbeiten (stattdessen `reset()`).
 - Neue Agent-Werkzeuge: Definition in `TOOL_DEFINITIONS` (strict, `additionalProperties: false`) + Methode `tool_<name>` in `Toolbox` + Test in `tests/test_agent.py`.
-- UI-Texte auf Deutsch, große Schrift, alles muss per Drehsteller (Fokus) erreichbar sein.
+- UI-Texte auf Deutsch, große Schrift, alles muss per Drehsteller (Fokus) erreichbar sein – beim Original-CID gibt es keinen Touch. Layouts für 800×480, 1280×480 und 1920×720 prüfen.
 - Hardwarenahe Bibliotheken (dbus-fast, python-mpd2, gpiozero) nur lazy importieren, damit `sim` auf jedem PC läuft.
 
 ## Befehle
@@ -39,4 +43,5 @@ python tools/can_sniff.py --channel can0   # am Auto: iDrive-Botschaften finden
 2. Am Auto: K-CAN-Bitrate und iDrive-/Lenkrad-IDs ermitteln → `idrive_map.toml`.
 3. Sprache: Aktivierungswort (z. B. openWakeWord), Spracherkennung (lokal whisper.cpp oder Cloud), Sprachausgabe (z. B. Piper) – als eigener Dienst, der `agent.ask` aufruft.
 4. Telefonbuch per PBAP (obexd), eingehende SMS per MAP, eingehende Anrufe als Ereignis `phone.call`/`incoming` aus oFono-Signalen.
-5. Optional: CarPlay/Android Auto über Carlinkit CPC200-CCPA, Rückfahrkamera, OBD-Daten.
+5. Bei Original-CID mit Video-Interface: iDrive-Ereignisse nur auswerten, wenn das Pi-Bild angezeigt wird (das CIC bekommt die Eingaben parallel) – Umschaltlogik des Interfaces klären.
+6. Optional: CarPlay/Android Auto über Carlinkit CPC200-CCPA, Rückfahrkamera, OBD-Daten.

@@ -1,6 +1,12 @@
-"""Zündung überwachen und den Pi sauber herunterfahren (CarPiHAT).
+"""Bordnetz überwachen und den Pi sauber herunterfahren (CarPiHAT).
 
-Ablauf beim CarPiHAT: Die Platine schaltet den Pi bei Zündung ein. Der Pi
+Im F30 gibt es kein klassisches Zündungsplus (Klemme 15 ist nur virtuell auf
+dem Bus). Der "Zündungs"-Eingang des CarPiHAT hängt deshalb an einer
+geschalteten Sicherung mit Klemme 15N (Nachlauf) oder 30B (Fahrzeug wach),
+siehe docs/BAUPLAN.md. Den genauen Zündungszustand liefert zusätzlich der
+CAN-Decoder (Ereignis vehicle.ignition mit source="can").
+
+Ablauf beim CarPiHAT: Die Platine schaltet den Pi bei Spannung am Eingang ein. Der Pi
 hält danach einen "Latch"-Ausgang auf HIGH. Fällt die Zündung weg, wartet
 er shutdown_delay_s (kurzer Tankstopp), fährt dann herunter und lässt den
 Latch los – danach ist der Pi stromlos. GPIO-Nummern laut HAT-Doku prüfen.
@@ -36,13 +42,13 @@ async def run_power_monitor(settings: Settings, bus: EventBus) -> None:
     while True:
         on = bool(ignition.value)
         if on != last_state:
-            bus.publish({"type": "vehicle.ignition", "on": on})
+            bus.publish({"type": "vehicle.power", "on": on, "source": "gpio"})
             last_state = on
         if on:
             off_since = None
         elif off_since is None:
             off_since = loop.time()
-            log.info("Zündung aus – Herunterfahren in %.0f s", settings.shutdown_delay_s)
+            log.info("Bordnetz-Eingang aus – Herunterfahren in %.0f s", settings.shutdown_delay_s)
         elif loop.time() - off_since >= settings.shutdown_delay_s:
             bus.publish({"type": "system.shutdown"})
             log.warning("fahre herunter")

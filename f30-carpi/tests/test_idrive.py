@@ -1,4 +1,4 @@
-from carpi.vehicle.idrive import ButtonSpec, IDriveDecoder, IDriveMap, RotarySpec
+from carpi.vehicle.idrive import ButtonSpec, IDriveDecoder, IDriveMap, RotarySpec, SignalSpec
 
 
 def make_decoder(width: int = 1, invert: bool = False) -> IDriveDecoder:
@@ -47,6 +47,16 @@ def test_button_reports_only_on_press_edge():
     assert dec.feed(0x101, pressed)[0]["button"] == "enter"
 
 
+def test_ignition_from_can_reports_changes_only():
+    mapping = IDriveMap(ignition=SignalSpec(can_id=0x12, byte=0, mask=0x0F, value=0x0A))
+    dec = IDriveDecoder(mapping)
+    on, off = bytes([0x4A]), bytes([0x48])
+    assert dec.feed(0x12, on) == [{"type": "vehicle.ignition", "on": True, "source": "can"}]
+    assert dec.feed(0x12, on) == []
+    assert dec.feed(0x12, off) == [{"type": "vehicle.ignition", "on": False, "source": "can"}]
+    assert mapping.can_ids == {0x12}
+
+
 def test_short_or_foreign_frames_are_ignored():
     dec = make_decoder()
     assert dec.feed(0x100, b"\x00") == []
@@ -68,17 +78,24 @@ can_id = 0x267
 byte = 5
 mask = 0x20
 value = 0x20
+
+[ignition]
+can_id = 0x12F
+byte = 0
+mask = 0x0F
+value = 0x0A
 """,
         encoding="utf-8",
     )
     mapping = IDriveMap.load(path)
     assert mapping.rotary == RotarySpec(can_id=0x264, byte=3, width=2)
     assert mapping.buttons[0].name == "back"
-    assert mapping.can_ids == {0x264, 0x267}
+    assert mapping.ignition == SignalSpec(can_id=0x12F, byte=0, mask=0x0F, value=0x0A)
+    assert mapping.can_ids == {0x264, 0x267, 0x12F}
 
 
 def test_shipped_template_map_is_empty():
     from carpi.config import PROJECT_ROOT
 
     mapping = IDriveMap.load(PROJECT_ROOT / "config" / "idrive_map.toml")
-    assert mapping.rotary is None and mapping.buttons == []
+    assert mapping.rotary is None and mapping.buttons == [] and mapping.ignition is None

@@ -1,9 +1,10 @@
 # f30-carpi – eigenes Infotainment für den BMW F30
 
-Raspberry Pi 5 + 12,3"-Display + eigene Software: KI-Assistent (Claude),
-Musik, Telefon (Bluetooth), Bedienung per Touch, Original-iDrive und
-später per Sprache. Das Original-Radio bleibt eingebaut und dient als
-Verstärker (Ton über AUX).
+Raspberry Pi 5 + eigene Software: KI-Assistent (Claude), Musik, Telefon
+(Bluetooth), Bedienung per Original-iDrive, Touch und später per Sprache.
+Das CIC-Radio bleibt eingebaut und dient als Verstärker (Ton über AUX); das
+Bild kommt per Video-Interface auf den Original-Bildschirm oder auf ein
+eigenes 12,3"-Display.
 
 - **Hardware, Kosten, Einbau, Risiken:** [`docs/BAUPLAN.md`](docs/BAUPLAN.md)
 - **Hinweise für die Weiterentwicklung mit Claude Code:** [`CLAUDE.md`](CLAUDE.md)
@@ -34,8 +35,8 @@ Bedienung im Browser: `←`/`→` = iDrive drehen, `Enter` = drücken,
 | `CARPI_CAN_CHANNEL` | `can0` | CAN-Schnittstelle |
 | `CARPI_CAN_REPLAY` | – | candump-Log abspielen statt Live-Bus |
 | `CARPI_IDRIVE_MAP` | `config/idrive_map.toml` | Zuordnung der CAN-Botschaften |
-| `CARPI_IGNITION_GPIO` / `CARPI_POWER_LATCH_GPIO` | `12` / `25` | GPIOs des CarPiHAT (laut HAT-Doku prüfen!) |
-| `CARPI_SHUTDOWN_DELAY_S` | `30` | Wartezeit nach Zündung aus |
+| `CARPI_IGNITION_GPIO` / `CARPI_POWER_LATCH_GPIO` | `12` / `25` | GPIOs des CarPiHAT (laut HAT-Doku prüfen!); Eingang hängt an Kl. 15N/30B |
+| `CARPI_SHUTDOWN_DELAY_S` | `30` | Wartezeit, nachdem Kl. 15N/30B abgefallen ist |
 | `CARPI_MPD_HOST` / `CARPI_MPD_PORT` | `localhost` / `6600` | Musik-Daemon |
 
 Der Assistent nutzt server-seitige Fallbacks (`fallbacks: "default"`): Lehnt
@@ -60,7 +61,8 @@ das Modell eine Anfrage ab, beantwortet die API sie mit einem Ausweichmodell.
 |---|---|
 | Oberfläche (1920×720, Fokus-Bedienung) | funktioniert (Simulation) |
 | Claude-Assistent mit Werkzeugen (Anruf, SMS, Musik, Lautstärke, Websuche) | funktioniert, getestet mit Attrappe der API |
-| iDrive-Decoder + Sniff-Werkzeug | fertig, **CAN-IDs am Auto noch zu ermitteln** |
+| iDrive-/Klemmenstatus-Decoder + Sniff-Werkzeug | fertig, **CAN-IDs am Auto noch zu ermitteln** |
+| Layout für Original-CID (800×480 / 1280×480) | funktioniert (Simulation) |
 | Telefon über oFono | geschrieben, **noch nicht am Gerät getestet** |
 | Musik über MPD | geschrieben, **noch nicht am Gerät getestet** |
 | Zündung/Herunterfahren | geschrieben, GPIOs laut CarPiHAT-Doku prüfen |

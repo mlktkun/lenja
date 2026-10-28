@@ -36,10 +36,22 @@ class ButtonSpec:
     value: int
 
 
+@dataclass(frozen=True)
+class SignalSpec:
+    """Ein-Bit-Zustand aus einer Botschaft, z. B. Klemmenstatus (Zündung an/aus)."""
+
+    can_id: int
+    byte: int
+    mask: int
+    value: int  # Wert der maskierten Bits, wenn der Zustand "an" ist
+
+
 @dataclass
 class IDriveMap:
     rotary: RotarySpec | None = None
     buttons: list[ButtonSpec] = field(default_factory=list)
+    # Im F30 gibt es Klemme 15 nur noch virtuell auf dem Bus – hier ihre Botschaft
+    ignition: SignalSpec | None = None
 
     @classmethod
     def load(cls, path: Path) -> IDriveMap:
@@ -65,13 +77,21 @@ class IDriveMap:
             )
             for b in data.get("buttons", [])
         ]
-        return cls(rotary=rotary, buttons=buttons)
+        ignition = None
+        if "ignition" in data and data["ignition"].get("can_id") is not None:
+            i = data["ignition"]
+            ignition = SignalSpec(
+                can_id=int(i["can_id"]), byte=int(i["byte"]), mask=int(i.get("mask", 0xFF)), value=int(i["value"])
+            )
+        return cls(rotary=rotary, buttons=buttons, ignition=ignition)
 
     @property
     def can_ids(self) -> set[int]:
         ids = {b.can_id for b in self.buttons}
         if self.rotary:
             ids.add(self.rotary.can_id)
+        if self.ignition:
+            ids.add(self.ignition.can_id)
         return ids
 
 
@@ -82,9 +102,17 @@ class IDriveDecoder:
         self.mapping = mapping
         self._last_counter: int | None = None
         self._pressed: set[str] = set()
+        self._ignition_on: bool | None = None
 
     def feed(self, can_id: int, data: bytes) -> list[Event]:
         events: list[Event] = []
+        ignition = self.mapping.ignition
+        if ignition and can_id == ignition.can_id and len(data) > ignition.byte:
+            on = (data[ignition.byte] & ignition.mask) == ignition.value
+            if on != self._ignition_on:
+                self._ignition_on = on
+                events.append({"type": "vehicle.ignition", "on": on, "source": "can"})
+
         rotary = self.mapping.rotary
         if rotary and can_id == rotary.can_id:
             delta = self._rotary_delta(rotary, data)

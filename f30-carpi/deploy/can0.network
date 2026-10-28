@@ -1,6 +1,8 @@
 # /etc/systemd/network/80-can0.network
 # CAN-Schnittstelle des CarPiHAT – NUR MITLESEN (ListenOnly), der Pi sendet nichts.
-# Bitrate am eigenen Auto prüfen: klassischer K-CAN 100 kbit/s, manche Zweige 500 kbit/s.
+# Abgriff am Stecker des iDrive-Controllers (ZBE). Bitrate am eigenen Auto prüfen
+# (Quellen nennen für K-CAN 100 bzw. 500 kbit/s). Vorher Pegel messen: bei
+# fehlertolerantem Low-Speed-CAN ist ein anderer Transceiver nötig (docs/BAUPLAN.md).
 # Aktivieren: sudo systemctl enable --now systemd-networkd
 [Match]
 Name=can0

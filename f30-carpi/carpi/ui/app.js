@@ -43,6 +43,7 @@ function handleEvent(ev) {
     case "agent.tool": return addChat("tool", `→ ${ev.name}`);
     case "agent.reset": return addChat("tool", "Neue Unterhaltung");
     case "vehicle.ignition": $("#fact-ignition").textContent = ev.on ? "an" : "aus"; return;
+    case "vehicle.power": $("#fact-power").textContent = ev.on ? "an" : "aus (Herunterfahren folgt)"; return;
     case "error": return addChat("tool", `Fehler: ${ev.message}`);
   }
 }
