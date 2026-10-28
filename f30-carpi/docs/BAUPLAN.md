@@ -115,7 +115,7 @@ Der Stecker direkt unter dem iDrive-Controller (ZBE) führt den K-CAN – dort
 greifen auch fertige CarPlay-Boxen und Android-Displays ab. Das ist der
 bequemste Punkt (Mittelkonsole, kurze Wege).
 
-**Vor dem Anschließen messen** (Zündung an, Multimeter gegen Masse):
+**Vor dem Anschließen messen** – Schritt-für-Schritt: [`MESSUNG_ZBE.md`](MESSUNG_ZBE.md). Kurzfassung (Zündung an, Multimeter gegen Masse):
 
 | Messung | High-Speed-CAN | Low-Speed-/Fehlertolerant-CAN |
 |---|---|---|
