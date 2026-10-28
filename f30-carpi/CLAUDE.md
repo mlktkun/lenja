@@ -1,7 +1,7 @@
 # CLAUDE.md – f30-carpi
 
 Eigenes Infotainment für einen BMW F30 320d (2013): 6,5"-CID (800×480), kein
-Navi, Radio mit CIC-ähnlichem Menü (vermutlich HU-B/ENTRY – Typschild prüfen),
+Navi, Serienradio HU-B/ENTRY mit CIC-ähnlichem Menü (per VIN-Ausstattungsliste geklärt, kein CIC),
 AUX-Eingang vorhanden, ohne Bluetooth/CarPlay. Hardware: Raspberry Pi 5 +
 CarPiHAT PRO 5; Bild per HDMI-Video-Interface (nur 480p) auf dem
 **Original-CID – kein Touch**, Bedienung nur per iDrive, Lenkradtasten, Sprache.
@@ -44,5 +44,5 @@ python tools/can_sniff.py --channel can0   # am Auto: iDrive-Botschaften finden
 2. Am Auto: K-CAN-Bitrate und iDrive-/Lenkrad-IDs ermitteln → `idrive_map.toml`.
 3. Sprache: Aktivierungswort (z. B. openWakeWord), Spracherkennung (lokal whisper.cpp oder Cloud), Sprachausgabe (z. B. Piper) – als eigener Dienst, der `agent.ask` aufruft.
 4. Telefonbuch per PBAP (obexd), eingehende SMS per MAP, eingehende Anrufe als Ereignis `phone.call`/`incoming` aus oFono-Signalen.
-5. Bei Original-CID mit Video-Interface: iDrive-Ereignisse nur auswerten, wenn das Pi-Bild angezeigt wird (das CIC bekommt die Eingaben parallel) – Umschaltlogik des Interfaces klären.
+5. Bei Original-CID mit Video-Interface: iDrive-Ereignisse nur auswerten, wenn das Pi-Bild angezeigt wird (das Radio bekommt die Eingaben parallel) – Umschaltlogik des Interfaces klären.
 6. Optional: CarPlay/Android Auto über Carlinkit CPC200-CCPA, Rückfahrkamera, OBD-Daten.

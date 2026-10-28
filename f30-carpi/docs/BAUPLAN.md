@@ -5,10 +5,11 @@ Claude Code), Zugriff auf eigene KI-Agenten, Musik und Handyfunktionen
 (Telefonie, SMS, Kontakte) – bedient über Touch bzw. den originalen
 iDrive-Controller und Sprache.
 
-**Bekannt vom Auto:** **6,5"-Bildschirm (CID, 800×480)**, ohne Navi,
-**AUX-Eingang vorhanden**, kein Bluetooth, kein CarPlay. Menü sieht aus wie
-CIC – bei einem 6,5"-F30 ohne Navi von 2013 ist es aber sehr wahrscheinlich
-das Basisradio **HU-B („Radio Professional“, ENTRY)**, siehe Abschnitt 2.
+**Bekannt vom Auto:** **6,5"-Bildschirm (CID, 800×480)**, AUX aktiv, kein
+Bluetooth, kein CarPlay. Laut Ausstattungsliste (VIN-Abfrage): **keine
+Navigation (kein SA 606/609), kein Bluetooth/USB (kein SA 6NS/6NH/6FL)**,
+dafür SA 6VB „Steuerung Infotainment“. → Serienradio **HU-B / ENTRY**
+(„Radio Professional“) mit CIC-ähnlichem Menü, **kein CIC**.
 
 **Entscheidung:** Weg A – Bild per Video-Interface auf dem **Original-CID**.
 
@@ -47,7 +48,7 @@ zwischen Originalbild und Pi-Bild (HDMI) um. Ergebnis: werksnahe Optik,
 Radio- und Fahrzeugmenüs bleiben, **kein Touch** – die Software wird
 ausschließlich per iDrive-Controller, Lenkradtasten und Sprache bedient.
 
-### 2.1 Erst prüfen: welches Radio genau?
+### 2.1 Welches Radio? (geklärt: HU-B / ENTRY)
 
 | Prüfung | HU-B / ENTRY („Radio Professional“) | CIC |
 |---|---|---|
@@ -71,8 +72,8 @@ Ausstattungsliste per VIN die Radio-Variante.
 
 - **Favorit** ist das Car-Solutions-Interface: Es nennt ENTRY und 6,5"
   ausdrücklich und hat HDMI. 480p passt gut zum 800×480-Bildschirm.
-- Das car-interface.com-Modul nur nehmen, falls dein Radio doch ein CIC
-  mit 4-poligem Stecker ist.
+- Das car-interface.com-Modul (nur CIC, 4-polig) **passt nicht** – das Auto
+  hat kein CIC.
 - Vor der Bestellung dem Händler schreiben: Baujahr/VIN und die
   Sonderausstattungs-Codes (SA-Liste) – und fragen, **wie umgeschaltet
   wird** (Taste lang drücken?) und **ob die iDrive-Eingaben im Pi-Modus
