@@ -51,14 +51,15 @@ ausschließlich per iDrive-Controller, Lenkradtasten und Sprache bedient.
 
 | Prüfung | HU-B / ENTRY („Radio Professional“) | CIC |
 |---|---|---|
-| Typschild am Radio (hinter der Mittelkonsolen-Blende) | „HU-B“/„Radio Professional“, Teilenr. z. B. 65129262467, 65129270373 | „HU CIC“ |
-| Ausstattungsliste per VIN | SA 663 (Radio Professional), kein SA 609 | meist mit Navigation (SA 609/606) |
-| Stecker hinten am CID | laut Händlern 6-polig LVDS bei ENTRY/NBT | 4-polig HSD-LVDS |
+| Typschild am Radio (Radio sitzt verdeckt hinter der Bedieneinheit Radio/Klima, nur nach Ausbau sichtbar) | „HU-B“/„Radio Professional“, Teilenr. z. B. 65129262467, 65129270373 | „HU CIC“ |
+| **Ausstattungsliste per VIN (am einfachsten, ohne Ausbau)** | SA 663 (Radio Professional), kein SA 609 | meist mit Navigation (SA 609/606) |
+| Videostecker (nur nach Ausbau sichtbar, CID-Kabel läuft verdeckt ins Armaturenbrett) | laut Händlern 6-polig LVDS bei ENTRY/NBT | 4-polig HSD-LVDS |
 
 Eine BMW-Servicemitteilung nennt das HU-B ausdrücklich für F30, die **vor
 April 2013 ohne Navigation Professional (SA 609)** gebaut wurden; ein Forum
 bestätigt, dass ENTRY-Radios im F30 ein CIC-ähnliches Menü zeigen. Der
-Stecker hinten am CID ist das, was beim Interface-Kauf zählt.
+Videostecker ist das, was beim Interface-Kauf zählt; ohne Ausbau klärt die
+Ausstattungsliste per VIN die Radio-Variante.
 
 ### 2.2 Interface-Kandidaten
 
@@ -72,8 +73,8 @@ Stecker hinten am CID ist das, was beim Interface-Kauf zählt.
   ausdrücklich und hat HDMI. 480p passt gut zum 800×480-Bildschirm.
 - Das car-interface.com-Modul nur nehmen, falls dein Radio doch ein CIC
   mit 4-poligem Stecker ist.
-- Vor der Bestellung dem Händler schreiben: Baujahr/VIN, Teilenummer des
-  Radios, Foto vom Stecker hinten am CID – und fragen, **wie umgeschaltet
+- Vor der Bestellung dem Händler schreiben: Baujahr/VIN und die
+  Sonderausstattungs-Codes (SA-Liste) – und fragen, **wie umgeschaltet
   wird** (Taste lang drücken?) und **ob die iDrive-Eingaben im Pi-Modus
   weiter ans Radio gehen** (dann bewegt man „blind“ auch das Radiomenü).
 
