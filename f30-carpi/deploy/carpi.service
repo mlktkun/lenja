@@ -1,0 +1,17 @@
+# /etc/systemd/system/carpi.service – Backend des Bordcomputers
+[Unit]
+Description=F30 CarPi Backend
+After=network-online.target bluetooth.service
+Wants=network-online.target
+
+[Service]
+User=carpi
+WorkingDirectory=/opt/f30-carpi
+# Hier u. a. ANTHROPIC_API_KEY=... und CARPI_MODE=car eintragen (chmod 600)
+EnvironmentFile=/etc/carpi.env
+ExecStart=/opt/f30-carpi/.venv/bin/python -m carpi
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

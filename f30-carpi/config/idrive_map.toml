@@ -1,0 +1,27 @@
+# Zuordnung der K-CAN-Botschaften des eigenen F30 zu iDrive-/Lenkradfunktionen.
+#
+# Die Werte sind für den F30 NICHT öffentlich dokumentiert und müssen am
+# eigenen Auto ermittelt werden:
+#
+#   python tools/can_sniff.py --channel can0
+#
+# Dann den Controller drehen / Tasten drücken und beobachten, welche ID und
+# welches Byte sich ändert. Solange hier nichts steht, funktioniert die
+# Bedienung per Touch und (am PC) per Tastatur.
+
+# [rotary]
+# can_id = 0x000     # ID der Drehbotschaft (Zähler)
+# byte = 0           # Position des Zählers im Datenfeld
+# width = 1          # 1 oder 2 Bytes (little endian)
+# invert = false     # true, falls die Richtung vertauscht ist
+
+# Gültige Tastennamen für die Oberfläche:
+#   enter, back, menu, up, down, left, right,
+#   media, phone, nav, option, voice, next, previous, vol_up, vol_down
+
+# [[buttons]]
+# name = "enter"
+# can_id = 0x000
+# byte = 0
+# mask = 0x01        # welche Bits zählen
+# value = 0x01       # Wert der maskierten Bits, wenn gedrückt

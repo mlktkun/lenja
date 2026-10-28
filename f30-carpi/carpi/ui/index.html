@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F30 CarPi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="statusbar">
+    <span id="clock">--:--</span>
+    <span id="call-status"></span>
+    <span id="conn" class="dot" title="Verbindung zum Bordcomputer"></span>
+  </header>
+
+  <main>
+    <!-- Startseite -->
+    <section class="view active" id="view-home">
+      <div class="tiles">
+        <button class="tile focusable" data-open="media"><span class="icon">♪</span>Musik</button>
+        <button class="tile focusable" data-open="phone"><span class="icon">☎</span>Telefon</button>
+        <button class="tile focusable" data-open="agent"><span class="icon">✦</span>Assistent</button>
+        <button class="tile focusable" data-open="vehicle"><span class="icon">⚙</span>Fahrzeug</button>
+      </div>
+    </section>
+
+    <!-- Musik -->
+    <section class="view" id="view-media">
+      <div class="nowplaying">
+        <div id="track-title" class="big">–</div>
+        <div id="track-artist" class="muted">–</div>
+      </div>
+      <div class="controls">
+        <button class="focusable" data-media="previous">⏮</button>
+        <button class="focusable" id="play-toggle" data-media="play">▶</button>
+        <button class="focusable" data-media="next">⏭</button>
+        <button class="focusable" data-volume="-10">−</button>
+        <span id="volume">50 %</span>
+        <button class="focusable" data-volume="10">+</button>
+      </div>
+    </section>
+
+    <!-- Telefon -->
+    <section class="view" id="view-phone">
+      <div class="split">
+        <ul id="contacts" class="list"></ul>
+        <div class="callbox">
+          <div id="call-number" class="big">Kein Anruf</div>
+          <button class="focusable" data-phone="answer">Annehmen</button>
+          <button class="focusable danger" data-phone="hangup">Auflegen</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Assistent -->
+    <section class="view" id="view-agent">
+      <div id="chat" class="chat"></div>
+      <form id="ask-form" class="askbar">
+        <input id="ask-input" class="focusable" autocomplete="off" placeholder="Frag den Assistenten … (Sprache folgt in Stufe 4)">
+        <button class="focusable" type="submit">Senden</button>
+        <button class="focusable" type="button" id="agent-reset">Neu</button>
+      </form>
+    </section>
+
+    <!-- Fahrzeug -->
+    <section class="view" id="view-vehicle">
+      <dl class="facts">
+        <dt>Modus</dt><dd id="fact-mode">–</dd>
+        <dt>Zündung</dt><dd id="fact-ignition">–</dd>
+        <dt>Assistent</dt><dd id="fact-agent">–</dd>
+        <dt>Letzte iDrive-Eingabe</dt><dd id="fact-nav">–</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="hint">iDrive: drehen = ← →, drücken = Enter, zurück = Esc</footer>
+  <script src="app.js"></script>
+</body>
+</html>

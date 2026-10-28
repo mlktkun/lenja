@@ -1,0 +1,74 @@
+:root {
+  --bg: #0b0d10;
+  --panel: #161a20;
+  --panel-2: #1f252d;
+  --text: #e9edf2;
+  --muted: #8b95a3;
+  --accent: #1c69d4;      /* BMW-Blau */
+  --danger: #d23b3b;
+  --ok: #2fbf71;
+  --radius: 18px;
+  --gap: 24px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;          /* große Schrift für den Blick während der Fahrt */
+  overflow: hidden;
+  user-select: none;
+}
+
+body { display: flex; flex-direction: column; }
+
+.statusbar {
+  display: flex; gap: var(--gap); align-items: center;
+  padding: 10px 32px; font-size: 24px; color: var(--muted);
+}
+.statusbar #clock { color: var(--text); font-weight: 600; }
+.statusbar .dot { margin-left: auto; width: 14px; height: 14px; border-radius: 50%; background: var(--danger); }
+.statusbar .dot.on { background: var(--ok); }
+
+main { flex: 1; position: relative; padding: 0 32px; min-height: 0; }
+.view { display: none; height: 100%; }
+.view.active { display: flex; flex-direction: column; }
+
+button, input {
+  font: inherit; color: var(--text); background: var(--panel-2);
+  border: 3px solid transparent; border-radius: var(--radius); padding: 18px 28px;
+}
+button.danger { background: var(--danger); }
+.focused, .focusable:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(28, 105, 212, .35); }
+
+.tiles { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); padding: var(--gap) 0; }
+.tile { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px; font-size: 34px; background: var(--panel); }
+.tile .icon { font-size: 90px; color: var(--accent); }
+
+.nowplaying { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.big { font-size: 48px; font-weight: 600; }
+.muted { color: var(--muted); }
+.controls { display: flex; gap: var(--gap); align-items: center; padding-bottom: var(--gap); }
+.controls button { min-width: 120px; font-size: 40px; }
+
+.split { flex: 1; display: grid; grid-template-columns: 2fr 1fr; gap: var(--gap); padding: var(--gap) 0; min-height: 0; }
+.list { list-style: none; margin: 0; padding: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.list button { width: 100%; text-align: left; display: flex; justify-content: space-between; }
+.callbox { display: flex; flex-direction: column; gap: var(--gap); justify-content: center; background: var(--panel); border-radius: var(--radius); padding: var(--gap); }
+
+.chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: var(--gap) 0; }
+.msg { max-width: 75%; padding: 14px 22px; border-radius: var(--radius); background: var(--panel); }
+.msg.user { align-self: flex-end; background: var(--accent); }
+.msg.tool { align-self: center; font-size: 20px; color: var(--muted); background: none; }
+.askbar { display: flex; gap: 16px; padding-bottom: var(--gap); }
+.askbar input { flex: 1; }
+
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 16px 40px; padding: var(--gap) 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+
+.hint { padding: 6px 32px 12px; font-size: 18px; color: var(--muted); }
